@@ -75,17 +75,17 @@ class Calculator:
             char = expression[i]
 
             if char.isdigit() or char == ".":
-                number += char  # 继续构建数字
+                number += char  # build number
             else:
                 if number:
                     tokens.append(number)
                     number = ""
 
                 if char in "+-*/()":
-                    # 处理 `**` (指数运算)
+                    # deal with `**` 
                     if char == "*" and i + 1 < len(expression) and expression[i + 1] == "*":
                         tokens.append("**")
-                        i += 1  # 跳过下一个 `*`
+                        i += 1  # skip next `*`
                     else:
                             tokens.append(char)
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     print(calc.evaluate("10/2"))        # 5.0
     print(calc.evaluate("sin(0)"))      # 0.0
     print(calc.evaluate("cos(0)"))      # 1.0
-    print(calc.evaluate("tan(45)"))     # 1.619775
+    print(calc.evaluate("tan(45)"))     # 1.0
     print(calc.evaluate("sqrt(16)"))    # 4.0
     print(calc.evaluate("5^2"))         # 25
     print(calc.evaluate("(2+3)*4"))     # 20
