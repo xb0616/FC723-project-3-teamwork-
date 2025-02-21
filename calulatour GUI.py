@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from calculator import Calculator
 
 
 
@@ -12,6 +12,7 @@ class Cal(tk.Tk):
         self.title("Calculator")
         self.geometry("420x580")
         self.create_widgets()
+        self.calculator = Calculator() #created the instance of calculator class
     #this function is called to create buttons for the GUI.
     def create_widgets(self):
 
@@ -52,14 +53,14 @@ class Cal(tk.Tk):
                 #expression is used to get the calculations to this line
                 expression = self.display.get()
                 #result is used to calculate the equation.
-                result = str(eval(expression))
+                result = self.calculator.evaluate(expression)
                 #this is used to delete the former expression to make room for the result
                 self.display.delete(0,tk.END)
                 #this adds the result to the display to show the answer
                 self.display.insert(tk.END,result)
 
             #this exception for if the equation is impossible or not compatible impossible to do.
-            except Exception as e:
+            except Exception:
                 #delets equation form display so error is by itself
                 self.display.delete(0, tk.END)
                 #add error in display.
