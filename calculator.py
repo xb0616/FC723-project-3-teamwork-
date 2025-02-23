@@ -3,11 +3,30 @@ import math
 class Calculator:
     def __init__(self):
         self.functions = {
+            "asin": self.asin_func,
+            "acos": self.acos_func,
+            "atan": self.atan_func,
             "sin": math.sin,
             "cos": math.cos,
             "tan": math.tan,
             "sqrt": math.sqrt
+            
         }
+    
+    def asin_func(self, x):
+        if -1 <= x <= 1:
+            return math.degrees(math.asin(x))
+        else:
+            return "Error: Domain"
+
+    def acos_func(self, x):
+        if -1 <= x <= 1:
+            return math.degrees(math.acos(x))  
+        else:
+            return "Error: Domain"
+
+    def atan_func(self, x):
+        return math.degrees(math.atan(x))  
 
     def evaluate(self, expression):
         """Evaluates a mathematical expression including basic and scientific operations"""
@@ -18,6 +37,12 @@ class Calculator:
 
             # Replace math functions (sin, cos, tan, sqrt)
             expression = self.replace_functions(expression)
+            
+            #If `expression` is a number (result from `sin`, `cos`, `tan`), return it directly
+            try:
+                return round(float(expression), 6)  #directly return computed value
+            except ValueError:
+                pass  #if not a number, proceed to normal parsing and computation
 
             # Tokenize the expression (split into numbers and operators)
             tokens = self.tokenize(expression)
@@ -33,9 +58,10 @@ class Calculator:
             return "Error: Invalid expression"
 
     def replace_functions(self, expression):
-        """Manually find and replace sin(x), cos(x), tan(x), sqrt(x) with computed values"""
+        """Manually find and replace sin(x), cos(x), tan(x), sqrt(x), asin(x), acos(x), atan(x) with computed values"""
         for func in self.functions:
             while func in expression:
+                print(func,expression)
                 start = expression.find(func)  # Find function name
                 open_bracket = expression.find("(", start)  # Find '('
                 close_bracket = expression.find(")", open_bracket)  # Find ')'
@@ -49,7 +75,6 @@ class Calculator:
 
                 try:
                     num = float(num_str)  # Convert to float
-
                     # Compute result (convert to radians for sin, cos, tan)
                     if func in ["sin", "cos", "tan"]:
                         result = self.functions[func](math.radians(num))
@@ -150,8 +175,8 @@ if __name__ == "__main__":
     calc = Calculator()
     print(calc.evaluate("2+3*4"))       # 14
     print(calc.evaluate("10/2"))        # 5.0
-    print(calc.evaluate("sin(0)"))      # 0.0
-    print(calc.evaluate("cos(0)"))      # 1.0
+    print(calc.evaluate("asin(1.0)"))      # 0.0
+    print(calc.evaluate("sin(180)"))     # 0.0
     print(calc.evaluate("tan(45)"))     # 1.0
     print(calc.evaluate("sqrt(16)"))    # 4.0
     print(calc.evaluate("5^2"))         # 25
